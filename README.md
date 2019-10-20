@@ -1,5 +1,5 @@
 # seisEP
-Seismic tomography with the exponentiated phase
+The exponentiated phase measurement, and objective-function hybridization for adjoint waveform tomography
 
 Yuan, Bozdag, Cardelli, Gao, Simons
 
