@@ -1,0 +1,68 @@
+The exponentiated phase measurement, and objective-function
+hybridization for adjoint waveform tomography
+Yanhua O. Yuan; Ebru Bozdag; Caio Ciardelli; Fuchun Gao;  Frederik J. Simons
+Geophys. J. Int. 2019 : ggw233v1-ggw233.
+http://dx.doi.org/10.1093/gji/ggw233
+
+To run the inversion experiments in the paper
+>> cd $seisEP/GJI2019
+
+## visualize models (to reproduce Fig.6)
+python $seisEP/auxiliaries/visualize/plot_bin model/model_true_bin/ vs 1
+python $seisEP/auxiliaries/visualize/plot_bin model/model_init00_bin/ vs 1
+
+## to initiate 
+./run_this_example.sh
+cd submit_job
+
+# inversion with good initial model (to reproduce Fig.7)
+# CC  
+change parameter file:
+initial_velocity_dir="$seisEP/GJI2019/model/model_init05_bin"
+measurement_list=CC
+measurement_weight=1.0
+./submit.sh
+
+# MT 
+change parameter file:
+initial_velocity_dir="$seisEP/GJI2019/model/model_init05_bin"
+measurement_list=MT
+measurement_weight=1.0
+./submit.sh
+
+# EP
+change parameter file:
+initial_velocity_dir="$seisEP/GJI2019/model/model_init05_bin"
+measurement_list=EP
+measurement_weight=1.0
+./submit.sh
+
+# inversion with poor initial model (to reproduce Fig.8)
+# CC
+change parameter file:
+initial_velocity_dir="$seisEP/GJI2019/model/model_init00_bin"
+measurement_list=CC
+measurement_weight=1.0
+./submit.sh
+
+# MT
+change parameter file:
+initial_velocity_dir="$seisEP/GJI2019/model/model_init00_bin"
+measurement_list=MT
+measurement_weight=1.0
+./submit.sh
+
+# EP
+change parameter file:
+initial_velocity_dir="$seisEP/GJI2019/model/model_init00_bin"
+measurement_list=EP
+measurement_weight=1.0
+./submit.sh
+
+# hybridization with poor initial model (to reproduce Fig.9 -10)
+# CC+EP
+change parameter file:
+initial_velocity_dir="$seisEP/GJI2019/model/model_init00_bin"
+measurement_list=CC+EP
+measurement_weight=(0.98, 0.02)
+./submit.sh

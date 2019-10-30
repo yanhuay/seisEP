@@ -1,0 +1,97 @@
+#!/bin/bash
+
+# GJI 2017
+
+### job info
+Job_title='hybrid_init00_w098' 
+system='slurm'  # slurm, lsf or pbs
+queue='tiger'   # serial,tiger(princeton) ...
+max_nproc_per_node=16 # max number of processors per node
+ntasks=16
+NPROC_SPECFEM=1
+WallTime=200
+compiler='ifort'
+GPU_MODE=false
+job='inversion' # modeling,kernel,inversion
+solver='specfem2D' # specfem2D, specfem3D
+ReStart=true   # true--Relaunch all files; false--Start from current status
+
+### paths
+package_path="$seisEP/seisEP"
+specfem_path="$seisEP/specfem2d"
+working_path="/scratch/gpfs/yanhuay/"
+SPECFEM_DATA="DATA"
+
+### observations 
+ExistDATA=false
+# if exist provide path, otherwise ignore
+DATA_DIR="none"
+
+### model paths
+target_velocity_dir="$seisEP/GJI2019/model/model_true_bin"
+initial_velocity_dir="$seisEP/GJI2019/model/model_init00_bin"
+
+### forward modeling
+# number of samples in data
+NSTEP=2500
+# sample rate
+deltat=0.06 #s  
+f0=0.084
+# number of receivers
+NREC=121
+# number of sources
+NSRC=1
+# measurement (x,y,z,p)
+data_list='y'
+
+### kernel construction
+# measurement type (CC WD ET ED EP MT MA) 
+measurement_list=CC+EP 
+# water level for envelope
+wtr_env=1e-3 
+# measurement type weight (if more than one weight, seperated by comma and space)
+measurement_weight=(0.98, 0.02) 
+# misfit_type (AD, DD, AD+DD)
+misfit_type_list=AD
+#normalize 
+NORMALIZE=true
+
+## inversion parameters
+kernel_list='beta_kernel'
+precond=false
+precond_name='Hessian2_kernel'
+z_precond=0.0
+model_list='vs'
+
+# optimization(SD CG QN)
+opt_scheme=QN
+
+# iteration limit
+iter_start=1
+iter_end=50 
+misfit_ratio_initial=0.0001
+
+### preprocessing
+SU_process=false
+SU_process_path="trunk"
+Wscale=0
+wavelet_path="trunk"
+
+TIME_WINDOW=false
+VEL_TOP=4000
+VEL_BOT=3000
+
+### postprocessing
+# smooth
+smooth=true
+sigma_x=20000
+sigma_z=20000
+sigma_x_rate=0.0
+sigma_z_rate=0.0
+
+# mask source 
+MASK_SOURCE=false 
+source_radius=24000
+
+## Display details
+DISPLAY_DETAILS=false
